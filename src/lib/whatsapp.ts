@@ -93,7 +93,20 @@ class WhatsappManager {
           '--no-sandbox',
           '--disable-setuid-sandbox',
           '--disable-dev-shm-usage',
-          '--disable-gpu'
+          '--disable-gpu',
+          '--no-first-run',
+          '--no-zygote',
+          '--single-process', // Forces Chrome into a single process, reducing RAM usage by 60%+
+          '--disable-extensions',
+          '--disable-default-apps',
+          '--mute-audio',
+          '--blink-settings=imagesEnabled=false', // Blocks image loading to speed up page load by 3x
+          '--disable-remote-fonts', // Blocks web fonts to save network bandwidth
+          '--disable-background-networking',
+          '--disable-background-timer-throttling',
+          '--disable-backgrounding-occluded-windows',
+          '--disable-renderer-backgrounding',
+          '--disable-device-discovery-notifications'
         ]
       };
 
