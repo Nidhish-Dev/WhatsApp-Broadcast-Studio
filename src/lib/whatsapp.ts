@@ -61,9 +61,18 @@ class WhatsappManager {
     this.broadcast();
 
     try {
+      const isVercel = process.env.VERCEL === '1';
+      
+      if (isVercel) {
+        throw new Error(
+          'Vercel Serverless Hosting is not supported. Running browser automation ' +
+          'requires a persistent stateful host (like your local Mac or a VPS). ' +
+          "Please run the app locally using 'npm run dev' to scan the QR code."
+        );
+      }
+
       console.log('Initializing WhatsApp Client...');
       
-      const isVercel = process.env.VERCEL === '1';
       const sessionPath = isVercel ? '/tmp/.wwebjs_auth' : './.wwebjs_auth';
       
       const puppeteerOptions: any = {
