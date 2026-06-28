@@ -50,7 +50,19 @@ class WhatsappManager {
   private isInitializing: boolean = false;
 
   constructor() {
-    // Client is not initialized automatically to avoid running puppeteer on start if not needed.
+    // Self-ping heartbeat to prevent Render Free Tier from spinning down (sleeping)
+    const selfUrl = process.env.RENDER_EXTERNAL_URL;
+    if (selfUrl) {
+      console.log(`Render Self-Ping active for: ${selfUrl}. Sending heartbeats every 10 mins.`);
+      setInterval(async () => {
+        try {
+          const res = await fetch(selfUrl);
+          console.log(`Render heartbeat ping status: ${res.status}`);
+        } catch (err) {
+          console.error('Render heartbeat ping failed:', err);
+        }
+      }, 10 * 60 * 1000); // 10 minutes
+    }
   }
 
   public async initialize() {
