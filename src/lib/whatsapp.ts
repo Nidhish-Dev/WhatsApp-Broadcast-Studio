@@ -62,20 +62,31 @@ class WhatsappManager {
 
     try {
       console.log('Initializing WhatsApp Client...');
+      
+      const isVercel = process.env.VERCEL === '1';
+      const sessionPath = isVercel ? '/tmp/.wwebjs_auth' : './.wwebjs_auth';
+      
+      const puppeteerOptions: any = {
+        headless: true,
+        args: [
+          '--no-sandbox',
+          '--disable-setuid-sandbox',
+          '--disable-dev-shm-usage',
+          '--disable-gpu'
+        ]
+      };
+
+      // Use local Google Chrome on macOS, but let Puppeteer resolve Chrome on Serverless Linux
+      if (!isVercel) {
+        puppeteerOptions.executablePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+      }
+
       this.client = new Client({
         authStrategy: new LocalAuth({
-          clientId: 'whatsapp-automation-session'
+          clientId: 'whatsapp-automation-session',
+          dataPath: sessionPath
         }),
-        puppeteer: {
-          headless: true,
-          executablePath: '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome',
-          args: [
-            '--no-sandbox',
-            '--disable-setuid-sandbox',
-            '--disable-dev-shm-usage',
-            '--disable-gpu'
-          ]
-        }
+        puppeteer: puppeteerOptions
       });
 
       this.client.on('qr', async (qr) => {
