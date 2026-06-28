@@ -85,8 +85,10 @@ class WhatsappManager {
         ]
       };
 
-      // Use local Google Chrome on macOS, but let Puppeteer resolve Chrome on Serverless Linux
-      if (!isVercel) {
+      // Use custom environment path if set (for Docker/Linux), otherwise default to local macOS Chrome
+      if (process.env.PUPPETEER_EXECUTABLE_PATH) {
+        puppeteerOptions.executablePath = process.env.PUPPETEER_EXECUTABLE_PATH;
+      } else if (!isVercel) {
         puppeteerOptions.executablePath = '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
       }
 
