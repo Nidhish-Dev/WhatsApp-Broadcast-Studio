@@ -1,5 +1,5 @@
-# Use Node.js base image
-FROM node:18-slim
+# Use Node.js base image (Next.js v16 requires >= 20.9.0)
+FROM node:20-slim
 
 # Install system dependencies and Chromium from Debian repository
 RUN apt-get update && apt-get install -y \
