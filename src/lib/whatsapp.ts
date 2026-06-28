@@ -95,8 +95,6 @@ class WhatsappManager {
           '--disable-dev-shm-usage',
           '--disable-gpu',
           '--no-first-run',
-          '--no-zygote',
-          '--single-process', // Forces Chrome into a single process, reducing RAM usage by 60%+
           '--disable-extensions',
           '--disable-default-apps',
           '--mute-audio',
